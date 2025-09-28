@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Переходник</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a0a2e 50%, #0a0a0a 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            overflow: hidden;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(90, 20, 180, 0.2) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(70, 10, 160, 0.2) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(100, 30, 200, 0.15) 0%, transparent 50%);
+            z-index: -1;
+        }
+
+        .container {
+            text-align: center;
+            padding: 3rem 2rem;
+            max-width: 900px;
+            width: 90%;
+            background: rgba(15, 5, 30, 0.8);
+            backdrop-filter: blur(12px);
+            border-radius: 20px;
+            box-shadow: 
+                0 10px 30px rgba(0, 0, 0, 0.7),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(100, 60, 200, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, #4a1c8c, #6b2db3, #4a1c8c);
+            box-shadow: 0 0 10px rgba(106, 45, 179, 0.5);
+        }
+
+        .title {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(90deg, #8a2be2, #6a0dad, #9370db);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 20px rgba(138, 43, 226, 0.5);
+            opacity: 0;
+            animation: fadeIn 1s ease forwards;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .subtitle {
+            font-size: 1.3rem;
+            margin-bottom: 3rem;
+            color: rgba(200, 180, 240, 0.9);
+            opacity: 0;
+            animation: fadeIn 1s ease 0.3s forwards;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.6;
+            font-weight: 500;
+        }
+
+        .highlight {
+            background: linear-gradient(90deg, #8a2be2, #6a0dad);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .buttons-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+            opacity: 0;
+            animation: fadeIn 1s ease 0.6s forwards;
+        }
+
+        .btn {
+            position: relative;
+            padding: 1.4rem 2.8rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            overflow: hidden;
+            min-width: 260px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            z-index: 1;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-blog {
+            background: linear-gradient(135deg, #2d0a52 0%, #4a1c8c 100%);
+            color: #d8c3ff;
+            box-shadow: 
+                0 5px 15px rgba(0, 0, 0, 0.5),
+                0 0 0 1px rgba(106, 45, 179, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        .btn-works {
+            background: linear-gradient(135deg, #1a0a2e 0%, #3a1369 100%);
+            color: #d8c3ff;
+            box-shadow: 
+                0 5px 15px rgba(0, 0, 0, 0.5),
+                0 0 0 1px rgba(80, 30, 150, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        .btn-reviews {
+            background: linear-gradient(135deg, #0a0615 0%, #2d0a52 100%);
+            color: #d8c3ff;
+            box-shadow: 
+                0 5px 15px rgba(0, 0, 0, 0.5),
+                0 0 0 1px rgba(70, 25, 130, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(180, 140, 255, 0.2), transparent);
+            transition: 0.6s;
+            z-index: -1;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(120, 70, 220, 0.3) 0%, transparent 100%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            z-index: -1;
+        }
+
+        .btn:hover::after {
+            opacity: 1;
+        }
+
+        .btn:hover {
+            transform: translateY(-7px) scale(1.03);
+            box-shadow: 
+                0 12px 25px rgba(0, 0, 0, 0.6),
+                0 0 0 1px rgba(140, 80, 255, 0.5),
+                0 0 20px rgba(106, 45, 179, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        }
+
+        .btn:active {
+            transform: translateY(-3px) scale(1.01);
+        }
+
+        .btn i {
+            font-size: 1.4rem;
+            color: #b19cd9;
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover i {
+            color: #e6d9ff;
+            transform: scale(1.2);
+        }
+
+        .floating-shapes {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .shape {
+            position: absolute;
+            opacity: 0.1;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #4a1c8c, #6b2db3);
+            animation: float 20s infinite linear;
+            filter: blur(1px);
+        }
+
+        .shape:nth-child(1) {
+            width: 120px;
+            height: 120px;
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .shape:nth-child(2) {
+            width: 180px;
+            height: 180px;
+            top: 70%;
+            left: 80%;
+            animation-delay: -5s;
+        }
+
+        .shape:nth-child(3) {
+            width: 90px;
+            height: 90px;
+            top: 50%;
+            left: 5%;
+            animation-delay: -10s;
+        }
+
+        .shape:nth-child(4) {
+            width: 150px;
+            height: 150px;
+            top: 20%;
+            left: 85%;
+            animation-delay: -7s;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0) rotate(0deg) translateX(0);
+            }
+            33% {
+                transform: translateY(-30px) rotate(120deg) translateX(20px);
+            }
+            66% {
+                transform: translateY(20px) rotate(240deg) translateX(-20px);
+            }
+            100% {
+                transform: translateY(0) rotate(360deg) translateX(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .pulse {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #6b2db3;
+            margin: 0 3px;
+            animation: pulse 1.5s infinite;
+            box-shadow: 0 0 5px #6b2db3;
+        }
+
+        .pulse:nth-child(2) {
+            background: #8a2be2;
+            animation-delay: 0.5s;
+        }
+
+        .pulse:nth-child(3) {
+            background: #9370db;
+            animation-delay: 1s;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(0.8);
+                opacity: 0.7;
+            }
+            50% {
+                transform: scale(1.2);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(0.8);
+                opacity: 0.7;
+            }
+        }
+
+        .glow {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(106, 45, 179, 0.2) 0%, transparent 70%);
+            filter: blur(20px);
+            z-index: -1;
+            animation: glowMove 15s infinite linear;
+        }
+
+        .glow:nth-child(1) {
+            top: -150px;
+            left: -150px;
+        }
+
+        .glow:nth-child(2) {
+            bottom: -150px;
+            right: -150px;
+            animation-delay: -7s;
+        }
+
+        @keyframes glowMove {
+            0% {
+                transform: translate(0, 0);
+            }
+            25% {
+                transform: translate(20px, 20px);
+            }
+            50% {
+                transform: translate(-10px, 10px);
+            }
+            75% {
+                transform: translate(10px, -10px);
+            }
+            100% {
+                transform: translate(0, 0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .title {
+                font-size: 2.5rem;
+            }
+            
+            .subtitle {
+                font-size: 1.1rem;
+            }
+            
+            .buttons-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn {
+                width: 100%;
+                max-width: 300px;
+                padding: 1.2rem 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-shapes">
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+    
+    <div class="glow"></div>
+    <div class="glow"></div>
+    
+    <div class="container">
+        <h1 class="title">Переходник</h1>
+        <p class="subtitle">Создаю <span class="highlight">продающие сайты</span>, которые повышают выручку бизнеса в<span class="highlight"> 2-3 раза</span> благодаря современному дизайну и маркетинговому подходу <span class="pulse"></span><span class="pulse"></span><span class="pulse"></span></p>
+        
+ <div class="buttons-container">
+    <button class="btn btn-blog" onclick="window.open('https://t.me/Miroslavbuy', '_blank')">
+        <i class="fas fa-book-open"></i>
+        Перейти в блог
+    </button>
+    
+    <button class="btn btn-works" onclick="window.open('https://t.me/Worksbymiroslav', '_blank')">
+        <i class="fas fa-laptop-code"></i>
+        Увидеть работы
+    </button>
+    
+    <button class="btn btn-reviews" onclick="window.open('https://t.me/reviewsmirr', '_blank')">
+        <i class="fas fa-star"></i>
+        Посмотреть отзывы
+    </button>
+</div>
+        
+
+    <script>
+        function navigateTo(section) {
+            // Анимация нажатия кнопки
+            const btn = event.currentTarget;
+            btn.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                btn.style.transform = '';
+            }, 200);
+            
+            // Здесь можно добавить реальные URL для перехода
+            const urls = {
+                'blog': '#',
+                'works': '#',
+                'reviews': '#'
+            };
+            
+            // В реальном проекте заменить на window.location.href = urls[section];
+            alert(`Переход в раздел: ${section}`);
+        }
+
+        // Добавляем эффект частиц при наведении на кнопки
+        document.querySelectorAll('.btn').forEach(btn => {
+            btn.addEventListener('mouseenter', function(e) {
+                for (let i = 0; i < 8; i++) {
+                    const particle = document.createElement('div');
+                    particle.style.position = 'absolute';
+                    particle.style.width = '6px';
+                    particle.style.height = '6px';
+                    particle.style.background = 'rgba(180, 140, 255, 0.7)';
+                    particle.style.borderRadius = '50%';
+                    particle.style.pointerEvents = 'none';
+                    particle.style.left = e.offsetX + 'px';
+                    particle.style.top = e.offsetY + 'px';
+                    particle.style.animation = `particleFloat 1s forwards`;
+                    particle.style.zIndex = '0';
+                    
+                    this.appendChild(particle);
+                    
+                    setTimeout(() => {
+                        particle.remove();
+                    }, 1000);
+                }
+            });
+        });
+
+        // Добавляем стили для анимации частиц
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes particleFloat {
+                0% {
+                    transform: translate(0, 0) scale(1);
+                    opacity: 1;
+                }
+                100% {
+                    transform: translate(${Math.random() * 100 - 50}px, ${Math.random() * 100 - 50}px) scale(0);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
